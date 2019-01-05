@@ -9,7 +9,7 @@
 
 # testing
 /coverage
-.pyc
+*.pyc
 
 # production
 /build
