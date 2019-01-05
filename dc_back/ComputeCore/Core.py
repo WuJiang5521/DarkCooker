@@ -2,6 +2,7 @@ from Model import *
 from ComputeCore.Engines import *
 import copy
 from termcolor import cprint
+import json
 
 
 class Core:
@@ -94,8 +95,8 @@ class Core:
             self.print_result()
         result = {}
         for i in range(len(self.use_engines)):
-            result[self.use_engines[i]] = str(self.model['result'][self.use_engines[i]])
-        return str(result)
+            result[self.use_engines[i]] = self.model['result'][self.use_engines[i]].json()
+        return json.dumps(result)
 
     def print_monsters(self):
         print("====== Monsters ======")

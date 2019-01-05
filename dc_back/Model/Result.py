@@ -11,6 +11,16 @@ class ResultNode:
     situations = []  # 到目前仍符合的情形
     children = []  # 所有位置在target的子节点
 
+    def json(self):
+        return {
+            'pos': self.pos,
+            'meet': self.meet,
+            'params': self.params,
+            'target': self.target,
+            'situations': self.situations,
+            'children': [child.json() for child in self.children]
+        }
+
     def print_self(self, tab):
         print_indent(tab)
         print('{')
