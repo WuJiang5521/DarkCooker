@@ -1,6 +1,7 @@
 from Model import *
 from ComputeCore.Engines import *
 import copy
+from termcolor import cprint
 
 
 class Core:
@@ -23,6 +24,7 @@ class Core:
         self.engine = {
             'default': DefaultEngine(self.model),
         }
+        self.use_engines = ['default']
         self.verbose = {
             'size': True,
             'monsters': True,
@@ -43,7 +45,7 @@ class Core:
         elif cmd == Core.MODIFY_MONSTER:
             self.__mdf_monster(msg)
         elif cmd == Core.CALCULATE:
-            self.__cal()
+            print(self.__cal())
         else:
             pass
 
@@ -81,7 +83,7 @@ class Core:
 
     def __cal(self):
         if self.verbose['size']:
-            print(self.model['width'], self.model['height'])
+            print({'width': self.model['width'], 'height': self.model['height']})
         if self.verbose['monsters']:
             self.print_monsters()
         self.__cal_situations()
@@ -90,12 +92,16 @@ class Core:
         self.__cal_engines()
         if self.verbose['result']:
             self.print_result()
+        result = {}
+        for i in range(len(self.use_engines)):
+            result[self.use_engines[i]] = str(self.model['result'][self.use_engines[i]])
+        return str(result)
 
     def print_monsters(self):
         print("====== Monsters ======")
         for i in range(len(self.model['monsters'])):
-            print("Monster {}:".format(i))
-            print(self.model['monsters'][i])
+            cprint("Monster {}:".format(i + 1), Colors.get_color(i + 1))
+            self.model['monsters'][i].print_self(Colors.get_color(i + 1))
         print("======================")
 
     def __cal_situations(self):
@@ -122,11 +128,15 @@ class Core:
         print("======================")
 
     def __cal_engines(self):
-        choice = 'default'
-        self.engine[choice].run()
+        for choice in self.use_engines:
+            self.model['result'][choice] = self.engine[choice].run()
 
     def print_result(self):
-        pass
+        print("======= Result =======")
+        for i in range(len(self.use_engines)):
+            print("Result {} from Engine {}:".format(i, self.use_engines[i]))
+            self.model['result'][self.use_engines[i]].print_self(0)
+        print("======================")
 
 
 if __name__ == '__main__':

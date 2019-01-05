@@ -1,4 +1,4 @@
-from ComputeCore.Engines.default import DefaultEngine
+from .default import DefaultEngine
 
 __all__ = ['DefaultEngine']
 

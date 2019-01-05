@@ -1,3 +1,7 @@
+from termcolor import colored
+from Model import Colors
+
+
 class Situation:
     def __init__(self, x, y):
         self.width = x
@@ -13,7 +17,7 @@ class Situation:
         for y in range(self.height):
             ans += '｜'
             for x in range(self.width):
-                ans += chr(self.map[x][y] + 65296)
+                ans += colored(chr(self.map[x][y] + 65296), Colors.get_color(self.map[x][y]))
             ans += '｜\n'
         ans += '└'
         for i in range(self.width):

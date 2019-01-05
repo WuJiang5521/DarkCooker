@@ -1,3 +1,6 @@
+from termcolor import colored
+
+
 class Monster:
     def __init__(self):
         self.min_x = -1
@@ -5,6 +8,7 @@ class Monster:
         self.min_y = -1
         self.max_y = -2
         self.list = []
+        self.color = 'white'
 
     def __len__(self):
         return len(self.list)
@@ -20,13 +24,17 @@ class Monster:
         for y in range(self.get_height()):
             ans += '｜'
             for x in range(self.get_width()):
-                ans += '＊' if self.in_map(x, y) else '．'
+                ans += colored('＊', self.color) if self.in_map(x, y) else '．'
             ans += '｜\n'
         ans += '└'
         for i in range(self.get_width()):
             ans += '－'
         ans += '┘'
         return ans
+
+    def print_self(self, color):
+        self.color = color
+        print(self)
 
     def in_map(self, x, y):
         return (x + self.min_x, y + self.min_y) in self.list
